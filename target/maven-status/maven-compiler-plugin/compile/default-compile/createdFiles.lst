@@ -1,0 +1,6 @@
+com\myretail\restapi\product\CustomMessage.class
+com\myretail\restapi\product\Price.class
+com\myretail\restapi\product\ProductDAO.class
+com\myretail\restapi\product\Product.class
+com\myretail\restapi\product\ProductService.class
+com\myretail\restapi\product\ProductUtil.class
