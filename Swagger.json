@@ -1,0 +1,189 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "REST API for MyRetail Product Services",
+    "version": "1.0",
+    "description": "This document describes the REST APIs and resources provided for myRetail Product.  The REST APIs provide access to services via URI paths. To use a REST API, your application will make an HTTPS request and parse the response. Supported formats is JSON. As of today, myRetail product service provide two operations - Get Product and Update Product. Both of these opearions are synchronous in nature.",
+    "contact": {
+      "name": "myRetail REST API Team",
+      "email": "someone@myretail.com"
+    },
+    "license": {
+      "name": "myRetail"
+    },
+  },
+  "schemes" : [
+    "http"
+  ],
+  "consumes" : ["application/json"],
+  "produces" : ["application/json"],
+  "host": "localhost:8080",
+  "basePath": "/myretail/api/v1",
+  "paths": {
+    "/products/{id}": {
+      "put": {
+        "tags": [
+          "Update Product"
+        ],
+        "summary": "Update Product",
+        "description": "Update Product",
+        "operationId": "UpdateProduct",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Product",
+            "in": "body",
+			"description": "Product object that needs to be updated in the system.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+		  {
+            "name": "id",
+            "in": "path",
+			"description": "Product Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated Product Object",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Not Authorized"
+          },
+          "500": {
+            "description": "Product Not Found OR Error While Fetching Product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      },
+	  "get": {
+        "tags": [
+          "Get Product"
+        ],
+        "summary": "Get Product",
+        "description": "Return Product object",
+        "operationId": "GetProduct",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+			"description": "Product Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product object",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Not Authorized"
+          },
+          "500": {
+            "description": "Product Not Exists OR Error While Updating Product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Product": {
+        "type": "object",
+		"required": [
+			"id",
+			"name",
+			"current_price"
+		],
+		"properties": {
+			"name": {
+				"type": "string"
+			},
+			"id": {
+				"type": "integer"
+			},
+			"current_price": {
+				"type": "object",
+				"required": [
+					"value",
+					"currency_code"
+				],
+				"properties": {
+					"value": {
+						"type": "number"
+					},
+					"currency_code": {
+						"type": "string"
+					}
+				},
+			}
+		},
+		"example": {
+        "$ref": "#/x-examples/Product_example"
+      }
+    },
+	"Error": {
+		"type": "object",
+		"required": [
+			"message",
+			"status",
+			"code"
+		],
+		"properties": {
+			"message": {
+				"type": "string"
+			},
+			"status": {
+				"type": "string"
+			},
+			"code": {
+				"type": "string"
+			}
+		},
+		"example": {
+        "$ref": "#/x-examples/Error_example"
+      }
+	}
+  },
+  "x-examples": {
+	"Product_example": 
+	{
+		"name":"The Big Lebowski (Blu-ray)",
+		"id":13860428,
+		"current_price":
+		{
+			"value":11.11,
+			"currency_code":"USD"
+		}
+    },
+	"Error_example": 
+	{
+		"message":"Product Not Found",
+		"status":"FAILURE",
+		"code":"PRODUCT_NOT_FOUND"
+	}
+  }
+}
